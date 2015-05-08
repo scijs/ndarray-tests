@@ -15,12 +15,12 @@ Require the library and use the methods described below. The onFalse callback is
 ```javascript
 var ndtest = require('ndarray-tests');
 
-ndtest.sameShape(A,B); // returns boolean
+ndtest.orthogonal(A,B,1e-4); // returns boolean
 
 
 // Returns boolean and if it fails, executes callback and passes explanation
-ndtest.sameShape(A,B,function(message) {
-  console.log('message');
+ndtest.orthogonal(A,B,1e-4,function(message) {
+  console.log(message);
 });
 
 ```
