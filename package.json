@@ -1,10 +1,14 @@
 {
   "name": "ndarray-tests",
   "version": "1.0.0",
-  "description": "Numerical test operations for ndarrays",
+  "description": "Test numerical properties of ndarrays",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/scijs/ndarray-tests.git"
   },
   "keywords": [
     "test",
