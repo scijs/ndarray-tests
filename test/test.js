@@ -176,3 +176,106 @@ describe('orthogonal',function() {
 });
 
 
+
+describe('upperTriangular',function() {
+
+  var upperTall, almostUpperTall, upperWide, almostUpperWide;
+
+  beforeEach(function() {
+    upperTall       = ndarray([1,2,3,0,4,5,0,0,6,0,0,0],[4,3]);
+    almostUpperTall = ndarray([1,2,3,1e-4,4,5,0,0,6,0,0,0],[4,3]);
+    upperWide       = ndarray([1,2,3,4,0,5,6,7,0,0,8,9],[3,4]);
+    almostUpperWide = ndarray([1,2,3,4,1e-4,5,6,7,0,0,8,9],[3,4]);
+  });
+
+  describe('tall matrices',function() {
+    it('true if exactly upper triangular',function() {
+      assert.isTrue( ndtest.upperTriangular(upperTall) );
+    });
+
+    it('true if within tolerance',function() {
+      assert.isTrue( ndtest.upperTriangular(almostUpperTall,1e-2) );
+    });
+
+    it('false if no tolerance provided and not exactly upper triangular',function() {
+      assert.isFalse( ndtest.upperTriangular(almostUpperTall) );
+    });
+
+    it('false if not within tolerance',function() {
+      assert.isFalse( ndtest.upperTriangular(almostUpperTall,1e-8) );
+    });
+  });
+
+  describe('wide matrices',function() {
+    it('true if exactly upper triangular',function() {
+      assert.isTrue( ndtest.upperTriangular(upperWide) );
+    });
+
+    it('true if within tolerance',function() {
+      assert.isTrue( ndtest.upperTriangular(almostUpperWide,1e-2) );
+    });
+
+    it('false if no tolerance provided and not exactly upper triangular',function() {
+      assert.isFalse( ndtest.upperTriangular(almostUpperWide) );
+    });
+
+    it('false if not within tolerance',function() {
+      assert.isFalse( ndtest.upperTriangular(almostUpperWide,1e-8) );
+    });
+  });
+
+});
+
+
+
+describe('lowerTriangular',function() {
+
+  var lowerTall, almostLowerTall, lowerWide, almostLowerWide;
+
+  beforeEach(function() {
+    lowerTall       = ndarray([1,0,0,1,1,0,1,1,1,1,1,1],[4,3]);
+    almostLowerTall = ndarray([1,1e-4,0,1,1,0,1,1,1,1,1,1],[4,3]);
+    lowerWide       = ndarray([1,0,0,0,2,3,0,0,4,5,6,0,7,8,9,10],[3,4]);
+    almostLowerWide = ndarray([1,1e-4,0,0,2,3,0,0,4,5,6,0,7,8,9,10],[3,4]);
+  });
+
+  describe('tall matrices',function() {
+    it('true if exactly lower triangular',function() {
+      assert.isTrue( ndtest.lowerTriangular(lowerTall) );
+    });
+
+    it('true if within tolerance',function() {
+      assert.isTrue( ndtest.lowerTriangular(almostLowerTall,1e-2) );
+    });
+
+    it('false if no tolerance provided and not exactly lower triangular',function() {
+      assert.isFalse( ndtest.lowerTriangular(almostLowerTall) );
+    });
+
+    it('false if not within tolerance',function() {
+      assert.isFalse( ndtest.lowerTriangular(almostLowerTall,1e-8) );
+    });
+  });
+
+  describe('wide matrices',function() {
+    it('true if exactly lower triangular',function() {
+      assert.isTrue( ndtest.lowerTriangular(lowerWide) );
+    });
+
+    it('true if within tolerance',function() {
+      assert.isTrue( ndtest.lowerTriangular(almostLowerWide,1e-2) );
+    });
+
+    it('false if no tolerance provided and not exactly lower triangular',function() {
+      assert.isFalse( ndtest.lowerTriangular(almostLowerWide) );
+    });
+
+    it('false if not within tolerance',function() {
+      assert.isFalse( ndtest.lowerTriangular(almostLowerWide,1e-8) );
+    });
+  });
+
+
+});
+
+

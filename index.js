@@ -164,6 +164,50 @@ var orthogonal = function(a, tol, onFalse) {
   return true;
 };
 
+var upperTriangular = function(a, tol, onFalse) {
+  if( tol === undefined ) {
+    tol = 0.0;
+  }
+
+  if( a.dimension !== 2 ) {
+    output(onFalse,'upperTriangular():: can only test for triangularity of two-dimensional arrays');
+    return false;
+  }
+
+  for(var i=1; i<a.shape[0]; i++) {
+    for(var j=0; j<i; j++) {
+      if( Math.abs(a.get(i,j)) > tol ) {
+        output(onFalse,'upperTriangular():: A[' + i + ',' + j + '] (= ' + a.get(i,j) + ') > ' + tol + '.');
+        return false;
+      }
+    }
+  }
+
+  return true;
+};
+
+var lowerTriangular = function(a, tol, onFalse) {
+  if( tol === undefined ) {
+    tol = 0.0;
+  }
+
+  if( a.dimension !== 2 ) {
+    output(onFalse,'lowerTriangular():: can only test for triangularity of two-dimensional arrays');
+    return false;
+  }
+
+  for(var i=0; i<a.shape[0]; i++) {
+    for(var j=i+1; j<a.shape[1]; j++) {
+      if( Math.abs(a.get(i,j)) > tol ) {
+        output(onFalse,'lowerTriangular():: A[' + i + ',' + j + '] (= ' + a.get(i,j) + ') > ' + tol + '.');
+        return false;
+      }
+    }
+  }
+
+  return true;
+};
+
 
 
 exports.approximatelyEqual = approximatelyEqual;
@@ -171,6 +215,6 @@ exports.symmetric = symmetric;
 exports.columnsOrthogonal = columnsOrthogonal;
 exports.columnsNormalized = columnsNormalized;
 exports.orthogonal = orthogonal;
-//exports.upperTriangular = upperTriangular;
-//exports.lowerTriangular = lowerTriangular;
+exports.upperTriangular = upperTriangular;
+exports.lowerTriangular = lowerTriangular;
 //exports.diagonal = diagonal;

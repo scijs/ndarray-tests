@@ -49,11 +49,14 @@ Test whether the pairwise inner product of all column pairs is less than `tol`.
 #### `orthogonal( a [, tol], [, onFalse] )`
 Checks for squareness, column normality, and pair-wise column orthogonality to check if the matrix is orthogonal. `tol` is passed to the `columnsNormal` and `columnsOrthogonal`
 
+#### `upperTriangular( a, [, tol] [, onFalse] )`
+Check whether all entries below the diagonal are within `tol` of zero. Works on tall and wide two-dimensional ndarrays.
+
+#### `lowerTriangular( a, [, tol] [, onFalse] )`
+Check whether all entries above the diagonal are within `tol` of zero. Works on tall and wide two-dimensional ndarrays.
 
 ### TO DO:
 
-- `upperTriangular( a, b, [, tol] [, onFalse] )`
-- `lowerTriangular( a, b, [, tol] [, onFalse] )`
 - `diagonal( a, [, tol] [, onFalse] )`
 - separate column methods to allow testing of specific pair-wise columns (or maybe that's simple enough that it's unnecessary)
 
