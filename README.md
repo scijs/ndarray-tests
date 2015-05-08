@@ -1,6 +1,6 @@
 # ndarray-tests
 
-Numerical test operations for ndarrays
+Test numerical properties of ndarrays
 
 ## Intro
 
