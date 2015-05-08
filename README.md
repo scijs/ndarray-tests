@@ -4,7 +4,7 @@ Test numerical properties of ndarrays
 
 ## Intro
 
-I very quickly got sick of testing matrix equality by hand over and over. This package implements methods for testing near-equality and other properties of ndarrays. Its goal is to be a set of test helpers so that it's not necessary to hard-code numbers. Decompositions aren't always unique (e.g. orthogonal columns may be chosen arbitrarily in some cases as long as they're orthogonal), so it's perhaps better to test properties than numbers..
+I very quickly got sick of testing matrix equality by hand over and over. This package implements methods for testing near-equality and other properties of ndarrays. Its goal is to be a set of test helpers so that it's not necessary to hard-code numbers. Decompositions aren't always unique (e.g. orthogonal columns may be chosen arbitrarily in some cases as long as they're orthogonal), so it's probably better to test properties than numbers.
 
 Note that some obvious tests are ommitted because they're one-liners.
 
