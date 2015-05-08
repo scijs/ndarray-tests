@@ -8,6 +8,8 @@ I very quickly got sick of testing matrix equality by hand over and over. This p
 
 Note that some obvious tests are ommitted because they're one-liners.
 
+Please feel free to make any suggestions/contributions for how to more clearly and consistently define specific property tests.
+
 ## Usage
 
 Require the library and use the methods described below. The onFalse callback is optional and serves only to simplify passing data while allowing the function to return a boolean. Tolerances are always assumed to be zero (exact equality) unless otherwise specified.
