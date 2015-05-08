@@ -18,7 +18,7 @@ var ndtest = require('ndarray-tests');
 ndtest.orthogonal(A,B,1e-4); // returns boolean
 
 
-// Returns boolean and if it fails, executes callback and passes explanation
+// Returns boolean and if it fails, passes explanation to callback
 ndtest.orthogonal(A,B,1e-4,function(message) {
   console.log(message);
 });
@@ -31,7 +31,7 @@ ndtest.orthogonal(A,B,1e-4,function(message) {
 Keep it simple and just ask, e.g.: `assert( a.dimension === b.dimension )`
 
 #### same shape:
-Keep it simple and just ask, e.g.: `assert.deepEqual( a.dimension, b.dimension )`
+Keep it simple and just ask, e.g.: `assert.deepEqual( a.shape, b.shape )`
 
 
 #### `approximatelyEqual( a, b [, tol] [, onFalse] )`
