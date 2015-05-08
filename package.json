@@ -1,0 +1,28 @@
+{
+  "name": "ndarray-tests",
+  "version": "1.0.0",
+  "description": "Numerical test operations for ndarrays",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "keywords": [
+    "test",
+    "ndarray",
+    "scijs"
+  ],
+  "author": "Ricky Reusser",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "mocha": "^2.2.4",
+    "ndarray": "^1.0.16",
+    "ndarray-show": "^1.1.1",
+    "sinon": "^1.14.1"
+  },
+  "dependencies": {
+    "ndarray-blas-level1": "^1.0.5",
+    "ndarray-ops": "^1.2.2",
+    "ndarray-scratch": "^1.1.1"
+  }
+}
