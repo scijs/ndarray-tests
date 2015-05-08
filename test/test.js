@@ -54,17 +54,25 @@ describe('approximatelyEqual',function() {
   });
 
   it('false if values unequal',function() {
-    assert.isFalse( ndtest.approximatelyEqual(c,d, 1e-4) );
+    assert.isFalse( ndtest.approximatelyEqual(c,d) );
   });
 
-  it('true if values within tolerance',function() {
+  it('true if within tolerance',function() {
     assert.isTrue( ndtest.approximatelyEqual(d,e, 1e-4) );
+  });
+
+  it('false if not within tolerance',function() {
+    assert.isFalse( ndtest.approximatelyEqual(e,f, 1e-8) );
+  });
+
+  it('true if exactly equal',function() {
+    assert.isTrue( ndtest.approximatelyEqual(d,f) );
   });
 
 });
 
 
-describe('symmetric',function() {
+describe('matrixIsSymmetric',function() {
 
   var wrongdim,wrongshape,symmetric,almostsymmetric;
 
@@ -76,33 +84,33 @@ describe('symmetric',function() {
   });
 
   it('false if not two-dimensional',function() {
-    assert.isFalse( ndtest.symmetric(wrongdim) );
+    assert.isFalse( ndtest.matrixIsSymmetric(wrongdim) );
   });
 
   it('false if non-square',function() {
-    assert.isFalse( ndtest.symmetric(wrongshape) );
+    assert.isFalse( ndtest.matrixIsSymmetric(wrongshape) );
   });
 
   it('no tolerance provided and exactly symmetric',function() {
-    assert.isTrue( ndtest.symmetric(symmetric) );
+    assert.isTrue( ndtest.matrixIsSymmetric(symmetric) );
   });
 
   it('no tolerance provided and not exactly symmetric',function() {
-    assert.isFalse( ndtest.symmetric(almostsymmetric) );
+    assert.isFalse( ndtest.matrixIsSymmetric(almostsymmetric) );
   });
 
   it('not within tolerance',function() {
-    assert.isFalse( ndtest.symmetric(almostsymmetric, 1e-4) );
+    assert.isFalse( ndtest.matrixIsSymmetric(almostsymmetric, 1e-4) );
   });
 
   it('true if values within tolerance',function() {
-    assert.isTrue( ndtest.symmetric(almostsymmetric, 1e-1) );
+    assert.isTrue( ndtest.matrixIsSymmetric(almostsymmetric, 1e-1) );
   });
 
 });
 
 
-describe('columnsOrthogonal',function() {
+describe('matrixColsAreOrthogonal',function() {
 
   var orthogonal, almostOrthogonal;
 
@@ -112,25 +120,25 @@ describe('columnsOrthogonal',function() {
   });
 
   it('false if no tolerance provided and not exactly orthogonal',function() {
-    assert.isFalse( ndtest.columnsOrthogonal(almostOrthogonal) );
+    assert.isFalse( ndtest.matrixColsAreOrthogonal(almostOrthogonal) );
   });
 
   it('false if not within tolerance',function() {
-    assert.isFalse( ndtest.columnsOrthogonal(almostOrthogonal, 1e-4) );
+    assert.isFalse( ndtest.matrixColsAreOrthogonal(almostOrthogonal, 1e-4) );
   });
 
   it('true if no tolerance provided and exactly orthogonal',function() {
-    assert.isTrue( ndtest.columnsOrthogonal(orthogonal) );
+    assert.isTrue( ndtest.matrixColsAreOrthogonal(orthogonal) );
   });
 
   it('true if within tolerance',function() {
-    assert.isTrue( ndtest.columnsOrthogonal(almostOrthogonal, 1e-1) );
+    assert.isTrue( ndtest.matrixColsAreOrthogonal(almostOrthogonal, 1e-1) );
   });
 
 });
 
 
-describe('columnsNormalized',function() {
+describe('matrixColsNormalized',function() {
 
   var normal, nonNormal;
 
@@ -141,43 +149,115 @@ describe('columnsNormalized',function() {
   });
 
   it('true if within tolerance',function() {
-    assert.isTrue( ndtest.columnsNormalized(normal, 1e-4) );
+    assert.isTrue( ndtest.matrixColsNormalized(normal, 1e-4) );
   });
 
   it('false if not within tolerance',function() {
-    assert.isFalse( ndtest.columnsNormalized(normal, 1e-12) );
+    assert.isFalse( ndtest.matrixColsNormalized(normal, 1e-12) );
   });
 
   it('false if not normalized',function() {
-    assert.isFalse( ndtest.columnsNormalized(nonNormal, 1e-4) );
+    assert.isFalse( ndtest.matrixColsNormalized(nonNormal, 1e-4) );
   });
 
 });
 
 
-describe('orthogonal',function() {
+describe('vectorsAreOrthogonal',function() {
+
+  var a,b,c;
+
+  beforeEach(function() {
+    a = ndarray([1,   1,0],[3]);
+    b = ndarray([0,1e-4,1],[3]);
+    c = ndarray([0,   0,1],[3]);
+  });
+
+  it('true if orthogonal',function() {
+    assert.isTrue( ndtest.vectorsAreOrthogonal(a,c) );
+  });
+
+  it('false if not within tolerance',function() {
+    assert.isFalse( ndtest.vectorsAreOrthogonal(a,b, 1e-8) );
+  });
+
+  it('true if within tolerance',function() {
+    assert.isTrue( ndtest.vectorsAreOrthogonal(a,b, 1e-2) );
+  });
+
+});
+
+describe('vectorIsNormal',function() {
+
+  var b,c;
+
+  beforeEach(function() {
+    b = ndarray([0,1e-1,1],[3]);
+    c = ndarray([0,   0,1],[3]);
+  });
+
+  it('true if normal',function() {
+    assert.isTrue( ndtest.vectorIsNormal(c) );
+  });
+
+  it('false if not within tolerance',function() {
+    assert.isFalse( ndtest.vectorIsNormal(b, 1e-8) );
+  });
+
+  it('true if within tolerance',function() {
+    assert.isTrue( ndtest.vectorIsNormal(b, 1e-2) );
+  });
+
+});
+
+describe('vectorsAreOrthonormal',function() {
+
+  var a,b,c,d;
+
+  beforeEach(function() {
+    a = ndarray([1,   0,0],[3]);
+    b = ndarray([0,1e-3,1],[3]);
+    c = ndarray([0,   0,1],[3]);
+    d = ndarray([0,   1,0],[3]);
+  });
+
+  it('true if orthonormal',function() {
+    assert.isTrue( ndtest.vectorsAreOrthonormal(c,d) );
+  });
+
+  it('false if not within normality tolerance',function() {
+    assert.isFalse( ndtest.vectorsAreOrthonormal(a,b, 1e-8) );
+  });
+
+  it('true if within tolerance',function() {
+    assert.isTrue( ndtest.vectorsAreOrthonormal(a,b, 1e-2) );
+  });
+
+});
+
+describe('matrixOrthogonal',function() {
 
   var orthonormal, nonOrthonormal;
 
   beforeEach(function() {
     var r2 = Math.sqrt(2) * 0.5;
-    orthonormal  = ndarray([r2, -r2, 0, 0, -r2, r2, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],[4,4]);
-    nonOrthonormal    = ndarray([r2, -r2, 1e-4, 0, -r2, r2, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],[4,4]);
+    orthonormal    = ndarray([r2, -r2, 0, 0, -r2, r2, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],[4,4]);
+    nonOrthonormal = ndarray([r2, -r2, 1e-4, 0, -r2, r2, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],[4,4]);
   });
 
   it('true if orthogonal and normal ( = orthonormal)',function() {
-    assert.isTrue( ndtest.orthogonal(orthonormal, 1e-8) );
+    assert.isTrue( ndtest.matrixOrthogonal(orthonormal, 1e-8) );
   });
 
   it('false if not within tolerance',function() {
-    assert.isFalse( ndtest.orthogonal(nonOrthonormal, 1e-8) );
+    assert.isFalse( ndtest.matrixOrthogonal(nonOrthonormal, 1e-8) );
   });
 
 });
 
 
 
-describe('upperTriangular',function() {
+describe('matrixIsUpperTriangular',function() {
 
   var upperTall, almostUpperTall, upperWide, almostUpperWide;
 
@@ -190,37 +270,37 @@ describe('upperTriangular',function() {
 
   describe('tall matrices',function() {
     it('true if exactly upper triangular',function() {
-      assert.isTrue( ndtest.upperTriangular(upperTall) );
+      assert.isTrue( ndtest.matrixIsUpperTriangular(upperTall) );
     });
 
     it('true if within tolerance',function() {
-      assert.isTrue( ndtest.upperTriangular(almostUpperTall,1e-2) );
+      assert.isTrue( ndtest.matrixIsUpperTriangular(almostUpperTall,1e-2) );
     });
 
     it('false if no tolerance provided and not exactly upper triangular',function() {
-      assert.isFalse( ndtest.upperTriangular(almostUpperTall) );
+      assert.isFalse( ndtest.matrixIsUpperTriangular(almostUpperTall) );
     });
 
     it('false if not within tolerance',function() {
-      assert.isFalse( ndtest.upperTriangular(almostUpperTall,1e-8) );
+      assert.isFalse( ndtest.matrixIsUpperTriangular(almostUpperTall,1e-8) );
     });
   });
 
   describe('wide matrices',function() {
     it('true if exactly upper triangular',function() {
-      assert.isTrue( ndtest.upperTriangular(upperWide) );
+      assert.isTrue( ndtest.matrixIsUpperTriangular(upperWide) );
     });
 
     it('true if within tolerance',function() {
-      assert.isTrue( ndtest.upperTriangular(almostUpperWide,1e-2) );
+      assert.isTrue( ndtest.matrixIsUpperTriangular(almostUpperWide,1e-2) );
     });
 
     it('false if no tolerance provided and not exactly upper triangular',function() {
-      assert.isFalse( ndtest.upperTriangular(almostUpperWide) );
+      assert.isFalse( ndtest.matrixIsUpperTriangular(almostUpperWide) );
     });
 
     it('false if not within tolerance',function() {
-      assert.isFalse( ndtest.upperTriangular(almostUpperWide,1e-8) );
+      assert.isFalse( ndtest.matrixIsUpperTriangular(almostUpperWide,1e-8) );
     });
   });
 
@@ -228,7 +308,7 @@ describe('upperTriangular',function() {
 
 
 
-describe('lowerTriangular',function() {
+describe('matrixIsLowerTriangular',function() {
 
   var lowerTall, almostLowerTall, lowerWide, almostLowerWide;
 
@@ -241,37 +321,37 @@ describe('lowerTriangular',function() {
 
   describe('tall matrices',function() {
     it('true if exactly lower triangular',function() {
-      assert.isTrue( ndtest.lowerTriangular(lowerTall) );
+      assert.isTrue( ndtest.matrixIsLowerTriangular(lowerTall) );
     });
 
     it('true if within tolerance',function() {
-      assert.isTrue( ndtest.lowerTriangular(almostLowerTall,1e-2) );
+      assert.isTrue( ndtest.matrixIsLowerTriangular(almostLowerTall,1e-2) );
     });
 
     it('false if no tolerance provided and not exactly lower triangular',function() {
-      assert.isFalse( ndtest.lowerTriangular(almostLowerTall) );
+      assert.isFalse( ndtest.matrixIsLowerTriangular(almostLowerTall) );
     });
 
     it('false if not within tolerance',function() {
-      assert.isFalse( ndtest.lowerTriangular(almostLowerTall,1e-8) );
+      assert.isFalse( ndtest.matrixIsLowerTriangular(almostLowerTall,1e-8) );
     });
   });
 
   describe('wide matrices',function() {
     it('true if exactly lower triangular',function() {
-      assert.isTrue( ndtest.lowerTriangular(lowerWide) );
+      assert.isTrue( ndtest.matrixIsLowerTriangular(lowerWide) );
     });
 
     it('true if within tolerance',function() {
-      assert.isTrue( ndtest.lowerTriangular(almostLowerWide,1e-2) );
+      assert.isTrue( ndtest.matrixIsLowerTriangular(almostLowerWide,1e-2) );
     });
 
     it('false if no tolerance provided and not exactly lower triangular',function() {
-      assert.isFalse( ndtest.lowerTriangular(almostLowerWide) );
+      assert.isFalse( ndtest.matrixIsLowerTriangular(almostLowerWide) );
     });
 
     it('false if not within tolerance',function() {
-      assert.isFalse( ndtest.lowerTriangular(almostLowerWide,1e-8) );
+      assert.isFalse( ndtest.matrixIsLowerTriangular(almostLowerWide,1e-8) );
     });
   });
 

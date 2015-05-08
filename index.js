@@ -46,10 +46,11 @@ var approximatelyEqual = function(a,b, tol, onFalse) {
 
   var diff = pool.zeros(a.shape, 'float64');
   ops.sub(diff, a, b);
-  var nrm = ops.norm2(diff);
+  ops.abseq(diff);
+  var nrm = ops.sup(diff);
 
-  if( nrm > Math.abs(tol) ) {
-    output(onFalse, 'approximatelyEqual():: 2-norm ||a - b|| (= ' + nrm + ') > ' + tol);
+  if( nrm > Math.max(0,tol) ) {
+    output(onFalse, 'approximatelyEqual():: max element of A - B (= ' + nrm + ') > ' + tol);
     return false;
   }
 
@@ -57,25 +58,25 @@ var approximatelyEqual = function(a,b, tol, onFalse) {
 };
 
 
-var symmetric = function(a, tol, onFalse) {
+var matrixIsSymmetric = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 2 ) {
-    output(onFalse,'symmetric():: can only test for symmetry of two-dimensional arrays');
+    output(onFalse,'matrixIsSymmetric():: can only test for symmetry of two-dimensional arrays');
     return false;
   }
 
   if( a.shape[0] !== a.shape[1] ) {
-    output(onFalse,'symmetric():: matrix is non-square');
+    output(onFalse,'matrixIsSymmetric():: matrix is non-square');
     return false;
   }
 
   for(var i=0; i<a.shape[0]; i++) {
     for(var j=0; j<i; j++) {
       if( Math.abs(a.get(i,j) - a.get(j,i)) > tol ) {
-        output(onFalse,'symmetric():: a[' + i + ',' + j + '] (= ' + a.get(i,j) + ') not within ' + tol + ' of a[' + j + ',' + i + '] (= ' + a.get(j,i) + ')');
+        output(onFalse,'matrixIsSymmetric():: a[' + i + ',' + j + '] (= ' + a.get(i,j) + ') not within ' + tol + ' of a[' + j + ',' + i + '] (= ' + a.get(j,i) + ')');
         return false;
       }
     }
@@ -84,13 +85,14 @@ var symmetric = function(a, tol, onFalse) {
   return true;
 };
 
-var columnsOrthogonal = function(a, tol, onFalse) {
+
+var matrixColsAreOrthogonal = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 2 ) {
-    output(onFalse,'columnsOrthogonal():: can only test for orthogonality of two-dimensional arrays');
+    output(onFalse,'matrixColsAreOrthogonal():: can only test for orthogonality of two-dimensional arrays');
     return false;
   }
 
@@ -98,7 +100,7 @@ var columnsOrthogonal = function(a, tol, onFalse) {
     for(var j=i+1; j<a.shape[1]; j++) {
       var nrm = blas1.dot( a.pick(null,i), a.pick(null,j) );
       if( nrm > tol ) {
-        output(onFalse,'columnsOrthogonal():: dot(a[:,' + i + '], a[:,' + j + ']) (= ' + nrm + ') > ' + tol);
+        output(onFalse,'matrixColsAreOrthogonal():: dot(a[:,' + i + '], a[:,' + j + ']) (= ' + nrm + ') > ' + tol);
         return false;
       }
     }
@@ -107,20 +109,20 @@ var columnsOrthogonal = function(a, tol, onFalse) {
   return true;
 };
 
-var columnsNormalized = function(a, tol, onFalse) {
+var matrixColsNormalized = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 2 ) {
-    output(onFalse,'columnsNormalized():: can only test for column normality of two-dimensional arrays');
+    output(onFalse,'matrixColsNormalized():: can only test for column normality of two-dimensional arrays');
     return false;
   }
 
   for(var i=0; i<a.shape[1]; i++) {
     var nrm = ops.norm2( a.pick(null,i) );
     if( Math.abs(nrm - 1) > tol ) {
-      output(onFalse,'columnsNormalized():: norm2(a[:,' + i + ']) (' + nrm + ') > ');
+      output(onFalse,'matrixColsNormalized():: norm2(a[:,' + i + ']) (' + nrm + ') > 1 +/- ' + tol);
       return false;
     }
   }
@@ -128,56 +130,119 @@ var columnsNormalized = function(a, tol, onFalse) {
 };
 
 
-var orthogonal = function(a, tol, onFalse) {
+var vectorsAreOrthogonal = function(a, b, tol, onFalse) {
+  if( tol === undefined ) {
+    tol = 0.0;
+  }
+
+  if( a.dimension !== 1 || b.dimension !== 1 ) {
+    output(onFalse,'vectorsAreOrthogonal():: can only test for orthogonality of one-dimensional arrays');
+    return false;
+  }
+
+  var nrm = blas1.dot(a,b);
+
+  if( nrm > Math.max(0,tol) ) {
+    output(onFalse,'vectorsAreOrthogonal():: inner product of a, b (= ' + nrm + ') > ' + tol + '.');
+    return false;
+  }
+
+  return true;
+};
+
+var vectorIsNormal = function(a, tol, onFalse) {
+  if( tol === undefined ) {
+    tol = 0.0;
+  }
+
+  if( a.dimension !== 1 ) {
+    output(onFalse,'vectorIsNormal():: can only test for normality of one-dimensional arrays');
+    return false;
+  }
+
+  var nrm = blas1.nrm2(a,a);
+
+  if( Math.abs(nrm - 1) > Math.max(0,tol) ) {
+    output(onFalse,'vectorIsNormal():: L-2 norm of A (= ' + nrm + ') > 1 +/- ' + tol + '.');
+    return false;
+  }
+
+  return true;
+};
+
+var vectorsAreOrthonormal = function(a, b, tol, onFalse) {
+  if( tol === undefined ) {
+    tol = 0.0;
+  }
+
+  if( ! vectorIsNormal(a,tol) ) {
+    output(onFalse,'vectorsAreOrthonormal():: first vector is not normal');
+    return false;
+  }
+
+  if( ! vectorIsNormal(b,tol) ) {
+    output(onFalse,'vectorsAreOrthonormal():: second vector is not normal');
+    return false;
+  }
+
+  if( ! vectorsAreOrthogonal(a,b,tol) ) {
+    output(onFalse,'vectorsAreOrthonormal():: vectors not orthogonal');
+    return false;
+  }
+
+  return true;
+};
+
+var matrixOrthogonal = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 2 ) {
-    output(onFalse,'columnsNormalized():: can only test for column normality of two-dimensional arrays');
+    output(onFalse,'matrixOrthogonal():: can only test for column normality of two-dimensional arrays');
     return false;
   }
 
-  if( ! columnsOrthogonal(a,tol) ) {
-    output(onFalse,'orthogonal():: columns not orthogonal');
+  if( ! matrixColsAreOrthogonal(a,tol) ) {
+    output(onFalse,'matrixOrthogonal():: columns not orthogonal');
     return false;
   }
 
-  if( ! columnsNormalized(a,tol) ) {
-    output(onFalse,'orthogonal():: columns not normal');
+  if( ! matrixColsNormalized(a,tol) ) {
+    output(onFalse,'matrixOrthogonal():: columns not normal');
     return false;
   }
 
   // These tests don't hurt anything but I'll have to stop and think about whether they're
   // necessary or whether a matrix with orthonormal columns also necessarily has orthonormal
   // rows.
-  if( ! columnsOrthogonal(a.transpose(1,0),tol) ) {
-    output(onFalse,'orthogonal():: rows not orthogonal');
+  if( ! matrixColsAreOrthogonal(a.transpose(1,0),tol) ) {
+    output(onFalse,'matrixOrthogonal():: rows not orthogonal');
     return false;
   }
 
-  if( ! columnsNormalized(a.transpose(1,0),tol) ) {
-    output(onFalse,'orthogonal():: rows not normal');
+  if( ! matrixColsNormalized(a.transpose(1,0),tol) ) {
+    output(onFalse,'matrixOrthogonal():: rows not normal');
     return false;
   }
 
   return true;
 };
 
-var upperTriangular = function(a, tol, onFalse) {
+var matrixIsUpperTriangular = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 2 ) {
-    output(onFalse,'upperTriangular():: can only test for triangularity of two-dimensional arrays');
+    output(onFalse,'matrixIsUpperTriangular():: can only test for triangularity of two-dimensional arrays');
     return false;
   }
 
   for(var i=1; i<a.shape[0]; i++) {
     for(var j=0; j<i; j++) {
       if( Math.abs(a.get(i,j)) > tol ) {
-        output(onFalse,'upperTriangular():: A[' + i + ',' + j + '] (= ' + a.get(i,j) + ') > ' + tol + '.');
+        output(onFalse,'matrixIsUpperTriangular():: A[' + i + ',' + j + '] (= ' + a.get(i,j) + ') > ' + tol + '.');
         return false;
       }
     }
@@ -186,20 +251,20 @@ var upperTriangular = function(a, tol, onFalse) {
   return true;
 };
 
-var lowerTriangular = function(a, tol, onFalse) {
+var matrixIsLowerTriangular = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 2 ) {
-    output(onFalse,'lowerTriangular():: can only test for triangularity of two-dimensional arrays');
+    output(onFalse,'matrixIsLowerTriangular():: can only test for triangularity of two-dimensional arrays');
     return false;
   }
 
   for(var i=0; i<a.shape[0]; i++) {
     for(var j=i+1; j<a.shape[1]; j++) {
       if( Math.abs(a.get(i,j)) > tol ) {
-        output(onFalse,'lowerTriangular():: A[' + i + ',' + j + '] (= ' + a.get(i,j) + ') > ' + tol + '.');
+        output(onFalse,'matrixIsLowerTriangular():: A[' + i + ',' + j + '] (= ' + a.get(i,j) + ') > ' + tol + '.');
         return false;
       }
     }
@@ -209,12 +274,55 @@ var lowerTriangular = function(a, tol, onFalse) {
 };
 
 
+// Deprecation warnings:
+
+var symmetric = function(a,tol,onFalse) {
+  console.warn('Warning: symmetric() is deprecated. Please use matrixIsSymmetric() instead');
+  matrixIsSymmetric(a,tol,onFalse);
+};
+
+var orthogonal = function orthogonal(a, tol, onFalse) {
+  console.warn('Warning: orthogonal() is deprecated. Please use matrixIsOrthogonal() instead');
+  return matrixIsOrthogonal(a,tol,onFalse);
+};
+
+var columnsOrthogonal = function columnsOrthogonal(a, tol, onFalse) {
+  console.warn('Warning: columnsOrthogonal() is deprecated. Please use matrixColsAreOrthogonal() instead');
+  return matrixColsAreOrthogonal(a,tol,onFalse);
+};
+
+var upperTriangular = function upperTriangular(a, tol, onFalse) {
+  console.warn('Warning: upperTriangular() is deprecated. Please use matrixIsUpperTriangular() instead');
+  return matrixIsUpperTriangular(a,tol,onFalse);
+};
+
+var lowerTriangular = function lowerTriangular(a, tol, onFalse) {
+  console.warn('Warning: lowerTriangular() is deprecated. Please use matrixIsLowerTriangular() instead');
+  return matrixIsLowerTriangular(a,tol,onFalse);
+};
+
+
 
 exports.approximatelyEqual = approximatelyEqual;
-exports.symmetric = symmetric;
+
+exports.matrixIsSymmetric = matrixIsSymmetric;
+exports.matrixColsAreOrthogonal = matrixColsAreOrthogonal;
+exports.matrixColsNormalized = matrixColsNormalized;
+exports.matrixOrthogonal = matrixOrthogonal;
+exports.matrixIsUpperTriangular = matrixIsUpperTriangular;
+exports.matrixIsLowerTriangular = matrixIsLowerTriangular;
+
+exports.vectorsAreOrthogonal = vectorsAreOrthogonal;
+exports.vectorIsNormal = vectorIsNormal;
+exports.vectorsAreOrthonormal = vectorsAreOrthonormal;
+
+//exports.diagonal = diagonal;
+
+// Deprecated functions:
 exports.columnsOrthogonal = columnsOrthogonal;
-exports.columnsNormalized = columnsNormalized;
+exports.symmetric = symmetric;
 exports.orthogonal = orthogonal;
 exports.upperTriangular = upperTriangular;
 exports.lowerTriangular = lowerTriangular;
-//exports.diagonal = diagonal;
+
+
