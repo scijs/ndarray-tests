@@ -42,14 +42,14 @@ Test whether the maximum element-wise difference between `a` and `b` (the L-infi
 
 #### Vector tests:
 
-#### `vectorIsNormal( a [, tol], [, onFalse] )`
+#### `vectorIsNormalized( a [, tol], [, onFalse] )`
 Test whether the L-2 norm of `a` is within `tol` of unity. 
 
 #### `vectorsAreOrthogonal( a, b, [, tol], [, onFalse] )`
 Test whether the inner product of vectors a and `b` is within `tol` of zero. 
 
 #### `vectorsAreOrthonormal( a, b, [, tol], [, onFalse] )`
-Test whether vectors `a` and `b` are both normalized and orthogonal using `vectorIsNormal` and `vectorsAreOrthogonal`.
+Test whether vectors `a` and `b` are both normalized and orthogonal using `vectorIsNormalized` and `vectorsAreOrthogonal`.
 
 
 
@@ -58,7 +58,7 @@ Test whether vectors `a` and `b` are both normalized and orthogonal using `vecto
 #### `matrixIsSymmetric( a [, tol], [, onFalse] )`
 Test for element-wise symmetry. Returns false if the difference between any element and its counterpart is greater than the tolerance.
 
-#### `matrixColumnsAreNormal( a [, tol], [, onFalse] )`
+#### `matrixColumnsAreNormalized( a [, tol], [, onFalse] )`
 Test whether the L2 norm of every column is within `tol` of 1.
 
 #### `matrixColumnsAreOrthogonal( a [, tol], [, onFalse] )`

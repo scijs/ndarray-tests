@@ -150,20 +150,20 @@ var vectorsAreOrthogonal = function(a, b, tol, onFalse) {
   return true;
 };
 
-var vectorIsNormal = function(a, tol, onFalse) {
+var vectorIsNormalized = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 1 ) {
-    output(onFalse,'vectorIsNormal():: can only test for normality of one-dimensional arrays');
+    output(onFalse,'vectorIsNormalized():: can only test for normality of one-dimensional arrays');
     return false;
   }
 
   var nrm = blas1.nrm2(a,a);
 
   if( Math.abs(nrm - 1) > Math.max(0,tol) ) {
-    output(onFalse,'vectorIsNormal():: L-2 norm of A (= ' + nrm + ') > 1 +/- ' + tol + '.');
+    output(onFalse,'vectorIsNormalized():: L-2 norm of A (= ' + nrm + ') > 1 +/- ' + tol + '.');
     return false;
   }
 
@@ -175,12 +175,12 @@ var vectorsAreOrthonormal = function(a, b, tol, onFalse) {
     tol = 0.0;
   }
 
-  if( ! vectorIsNormal(a,tol) ) {
+  if( ! vectorIsNormalized(a,tol) ) {
     output(onFalse,'vectorsAreOrthonormal():: first vector is not normal');
     return false;
   }
 
-  if( ! vectorIsNormal(b,tol) ) {
+  if( ! vectorIsNormalized(b,tol) ) {
     output(onFalse,'vectorsAreOrthonormal():: second vector is not normal');
     return false;
   }
@@ -313,7 +313,7 @@ exports.matrixIsUpperTriangular = matrixIsUpperTriangular;
 exports.matrixIsLowerTriangular = matrixIsLowerTriangular;
 
 exports.vectorsAreOrthogonal = vectorsAreOrthogonal;
-exports.vectorIsNormal = vectorIsNormal;
+exports.vectorIsNormalized = vectorIsNormalized;
 exports.vectorsAreOrthonormal = vectorsAreOrthonormal;
 
 //exports.diagonal = diagonal;

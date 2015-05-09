@@ -187,7 +187,7 @@ describe('vectorsAreOrthogonal',function() {
 
 });
 
-describe('vectorIsNormal',function() {
+describe('vectorIsNormalized',function() {
 
   var b,c;
 
@@ -197,15 +197,15 @@ describe('vectorIsNormal',function() {
   });
 
   it('true if normal',function() {
-    assert.isTrue( ndtest.vectorIsNormal(c) );
+    assert.isTrue( ndtest.vectorIsNormalized(c) );
   });
 
   it('false if not within tolerance',function() {
-    assert.isFalse( ndtest.vectorIsNormal(b, 1e-8) );
+    assert.isFalse( ndtest.vectorIsNormalized(b, 1e-8) );
   });
 
   it('true if within tolerance',function() {
-    assert.isTrue( ndtest.vectorIsNormal(b, 1e-2) );
+    assert.isTrue( ndtest.vectorIsNormalized(b, 1e-2) );
   });
 
 });
