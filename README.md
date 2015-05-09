@@ -29,48 +29,51 @@ ndtest.orthogonal(A,B,1e-4,function(message) {
 
 ### Methods:
 
-#### same dimensions:
+##### same dimensions:
 Keep it simple and just ask, e.g.: `assert( a.dimension === b.dimension )`
 
-#### same shape:
+##### same shape:
 Keep it simple and just ask, e.g.: `assert.deepEqual( a.shape, b.shape )`
 
+================
 
-#### `approximatelyEqual( a, b [, tol] [, onFalse] )`
+##### `approximatelyEqual( a, b [, tol] [, onFalse] )`
 Test whether the maximum element-wise difference between `a` and `b` (the L-infinity norm of `(a - b)`) is less than the tolerance. Works on arrays of any dimension.
 
+================
 
 #### Vector tests:
 
-#### `vectorIsNormalized( a [, tol], [, onFalse] )`
+##### `vectorIsNormalized( a [, tol], [, onFalse] )`
 Test whether the L-2 norm of `a` is within `tol` of unity. 
 
-#### `vectorsAreOrthogonal( a, b, [, tol], [, onFalse] )`
+##### `vectorsAreOrthogonal( a, b, [, tol], [, onFalse] )`
 Test whether the inner product of vectors a and `b` is within `tol` of zero. 
 
-#### `vectorsAreOrthonormal( a, b, [, tol], [, onFalse] )`
+##### `vectorsAreOrthonormal( a, b, [, tol], [, onFalse] )`
 Test whether vectors `a` and `b` are both normalized and orthogonal using `vectorIsNormalized` and `vectorsAreOrthogonal`.
 
 
+================
 
 #### Matrix tests:
 
-#### `matrixIsSymmetric( a [, tol], [, onFalse] )`
+##### `matrixIsSymmetric( a [, tol], [, onFalse] )`
 Test for element-wise symmetry. Returns false if the difference between any element and its counterpart is greater than the tolerance.
 
-#### `matrixColumnsAreNormalized( a [, tol], [, onFalse] )`
+##### `matrixColumnsAreNormalized( a [, tol], [, onFalse] )`
 Test whether the L2 norm of every column is within `tol` of 1.
 
-#### `matrixColumnsAreOrthogonal( a [, tol], [, onFalse] )`
+##### `matrixColumnsAreOrthogonal( a [, tol], [, onFalse] )`
 Test whether the pairwise inner product of all column pairs is less than `tol`.
 
-#### `matrixIsOrthogonal( a [, tol], [, onFalse] )`
+##### `matrixIsOrthogonal( a [, tol], [, onFalse] )`
 Checks for squareness, column normality, and pair-wise column orthogonality to check if the matrix is orthogonal. `tol` is passed to the `matrixColumnsAreNormal` and `matrixColumnsAreOrthogonal`
 
-#### `matrixIsUpperTriangular( a, [, tol] [, onFalse] )`
+##### `matrixIsUpperTriangular( a, [, tol] [, onFalse] )`
 Check whether all entries below the diagonal are within `tol` of zero. Works on tall and wide two-dimensional ndarrays.
 
-#### `matrixIsLowerTriangular( a, [, tol] [, onFalse] )`
+##### `matrixIsLowerTriangular( a, [, tol] [, onFalse] )`
 Check whether all entries above the diagonal are within `tol` of zero. Works on tall and wide two-dimensional ndarrays.
 
 
