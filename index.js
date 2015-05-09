@@ -2,7 +2,6 @@
 
 var ops = require('ndarray-ops'),
     pool = require('ndarray-scratch'),
-    show = require('ndarray-show'),
     blas1 = require('ndarray-blas-level1');
 
 function output(callback,message,method,reason) {
