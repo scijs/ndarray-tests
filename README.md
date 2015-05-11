@@ -2,6 +2,8 @@
 
 Test numerical properties of ndarrays
 
+[![Build Status](https://travis-ci.org/scijs/ndarray-tests.svg)](https://travis-ci.org/scijs/ndarray-tests) [![npm version](https://badge.fury.io/js/ndarray-tests.svg)](http://badge.fury.io/js/ndarray-tests) [![Dependency Status](https://david-dm.org/scijs/ndarray-tests.svg)](https://david-dm.org/scijs/ndarray-tests)
+
 ## Intro
 
 I very quickly got sick of testing matrix equality by hand over and over. This package implements methods for testing near-equality and other properties of ndarrays. Its goal is to be a set of test helpers so that it's not necessary to hard-code numbers. Decompositions aren't always unique (e.g. orthogonal columns may be chosen arbitrarily in some cases as long as they're orthogonal), so it's probably better to test properties than numbers.
