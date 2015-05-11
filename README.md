@@ -1,5 +1,7 @@
 # ndarray-tests
 
+[![Build Status](https://travis-ci.org/scijs/ndarray-tests.svg)](https://travis-ci.org/scijs/ndarray-tests) [![npm version](https://badge.fury.io/js/ndarray-tests.svg)](http://badge.fury.io/js/ndarray-tests) [![Dependency Status](https://david-dm.org/scijs/ndarray-tests.svg)](https://david-dm.org/scijs/ndarray-tests)
+
 Test numerical properties of ndarrays
 
 ## Intro
