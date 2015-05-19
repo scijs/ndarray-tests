@@ -2,7 +2,8 @@
 
 var ops = require('ndarray-ops'),
     pool = require('ndarray-scratch'),
-    blas1 = require('ndarray-blas-level1');
+    blas1 = require('ndarray-blas-level1'),
+    show = require('ndarray-show');
 
 function output(callback,message,method,reason) {
   //console.log(message);
@@ -50,6 +51,13 @@ var approximatelyEqual = function(a,b, tol, onFalse) {
 
   if( nrm > Math.max(0,tol) ) {
     output(onFalse, 'approximatelyEqual():: max element of A - B (= ' + nrm + ') > ' + tol);
+    return false;
+  }
+
+  var sum = ops.sum(diff);
+
+  if( isNaN(sum) ) {
+    output(onFalse, 'approximatelyEqual():: matrix contains NaN');
     return false;
   }
 

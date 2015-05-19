@@ -40,7 +40,7 @@ Keep it simple and just ask, e.g.: `assert.deepEqual( a.shape, b.shape )`
 ================
 
 ##### `approximatelyEqual( a, b [, tol] [, onFalse] )`
-Test whether the maximum element-wise difference between `a` and `b` (the L-infinity norm of `(a - b)`) is less than the tolerance. Works on arrays of any dimension.
+Test whether the maximum element-wise difference between `a` and `b` (the L-infinity norm of `(a - b)`) is less than the tolerance. Works on arrays of any dimension. The test will return false if any entry is NaN.
 
 ================
 

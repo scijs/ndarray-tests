@@ -33,7 +33,7 @@ describe('onFalse callbacks',function() {
 
 describe('approximatelyEqual',function() {
 
-  var a,b,c,d,e,f;
+  var a,b,c,d,e,f,g;
 
   beforeEach(function() {
     a = ndarray([1,2,3,4,5,6],[6]);
@@ -43,6 +43,7 @@ describe('approximatelyEqual',function() {
     d = ndarray([1,2,3,4,5,6],[3,2]);
     e = ndarray([1,2,3,4,5,6.00001],[3,2]);
     f = ndarray([1,2,3,4,5,6],[3,2]);
+    g = ndarray([1,2,NaN,4,5,6],[3,2]);
   });
 
   it('false if dimensions unequal',function() {
@@ -67,6 +68,10 @@ describe('approximatelyEqual',function() {
 
   it('true if exactly equal',function() {
     assert.isTrue( ndtest.approximatelyEqual(d,f) );
+  });
+
+  it('false if any entry is NaN',function() {
+    assert.isFalse( ndtest.approximatelyEqual(f,g) );
   });
 
 });
