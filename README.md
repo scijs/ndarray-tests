@@ -19,11 +19,11 @@ Require the library and use the methods described below. The onFalse callback is
 ```javascript
 var ndtest = require('ndarray-tests');
 
-ndtest.orthogonal(A,B,1e-4); // returns boolean
+ndtest.matrixIsOrthogonal(A,B,1e-4); // returns boolean
 
 
 // Returns boolean and if it fails, passes explanation to callback
-ndtest.orthogonal(A,B,1e-4,function(message) {
+ndtest.matrixIsOrthogonal(A,B,1e-4,function(message) {
   console.log(message);
 });
 
