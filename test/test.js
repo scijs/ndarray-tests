@@ -74,6 +74,10 @@ describe('approximatelyEqual',function() {
     assert.isFalse( ndtest.approximatelyEqual(f,g) );
   });
 
+  it('aliased to equal',function() {
+    assert.isFalse( ndtest.equal(f,g) );
+  });
+
 });
 
 

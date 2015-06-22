@@ -27,14 +27,14 @@ function arraysEqual (a,b) {
 };
 
 
-var approximatelyEqual = function(a,b, tol, onFalse) {
+var equal = function(a,b, tol, onFalse) {
   var t;
 
   if( tol === undefined ) {
     tol = 0;
   }
 
-  if( a.dimension !== b.dimension ) { 
+  if( a.dimension !== b.dimension ) {
     output(onFalse,'approximatelyEqual():: a.dimension (= ' + a.dimension + ') !=   b.dimension (= ' + b.dimension + ')');
     return false;
   }
@@ -310,7 +310,8 @@ var lowerTriangular = function lowerTriangular(a, tol, onFalse) {
 
 
 
-exports.approximatelyEqual = approximatelyEqual;
+exports.approximatelyEqual = equal;
+exports.equal = equal;
 
 exports.matrixIsSymmetric = matrixIsSymmetric;
 exports.matrixColsAreOrthogonal = matrixColsAreOrthogonal;
