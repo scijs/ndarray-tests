@@ -147,7 +147,7 @@ describe('matrixColsAreOrthogonal',function() {
 });
 
 
-describe('matrixColsNormalized',function() {
+describe('matrixColsAreNormalized',function() {
 
   var normal, nonNormal;
 
@@ -158,15 +158,15 @@ describe('matrixColsNormalized',function() {
   });
 
   it('true if within tolerance',function() {
-    assert.isTrue( ndtest.matrixColsNormalized(normal, 1e-4) );
+    assert.isTrue( ndtest.matrixColsAreNormalized(normal, 1e-4) );
   });
 
   it('false if not within tolerance',function() {
-    assert.isFalse( ndtest.matrixColsNormalized(normal, 1e-12) );
+    assert.isFalse( ndtest.matrixColsAreNormalized(normal, 1e-12) );
   });
 
   it('false if not normalized',function() {
-    assert.isFalse( ndtest.matrixColsNormalized(nonNormal, 1e-4) );
+    assert.isFalse( ndtest.matrixColsAreNormalized(nonNormal, 1e-4) );
   });
 
 });
@@ -244,7 +244,7 @@ describe('vectorsAreOrthonormal',function() {
 
 });
 
-describe('matrixOrthogonal',function() {
+describe('matrixIsOrthogonal',function() {
 
   var orthonormal, nonOrthonormal;
 
@@ -255,11 +255,11 @@ describe('matrixOrthogonal',function() {
   });
 
   it('true if orthogonal and normal ( = orthonormal)',function() {
-    assert.isTrue( ndtest.matrixOrthogonal(orthonormal, 1e-8) );
+    assert.isTrue( ndtest.matrixIsOrthogonal(orthonormal, 1e-8) );
   });
 
   it('false if not within tolerance',function() {
-    assert.isFalse( ndtest.matrixOrthogonal(nonOrthonormal, 1e-8) );
+    assert.isFalse( ndtest.matrixIsOrthogonal(nonOrthonormal, 1e-8) );
   });
 
 });

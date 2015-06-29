@@ -116,20 +116,20 @@ var matrixColsAreOrthogonal = function(a, tol, onFalse) {
   return true;
 };
 
-var matrixColsNormalized = function(a, tol, onFalse) {
+var matrixColsAreNormalized = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 2 ) {
-    output(onFalse,'matrixColsNormalized():: can only test for column normality of two-dimensional arrays');
+    output(onFalse,'matrixColsAreNormalized():: can only test for column normality of two-dimensional arrays');
     return false;
   }
 
   for(var i=0; i<a.shape[1]; i++) {
     var nrm = ops.norm2( a.pick(null,i) );
     if( Math.abs(nrm - 1) > tol ) {
-      output(onFalse,'matrixColsNormalized():: norm2(a[:,' + i + ']) (' + nrm + ') > 1 +/- ' + tol);
+      output(onFalse,'matrixColsAreNormalized():: norm2(a[:,' + i + ']) (' + nrm + ') > 1 +/- ' + tol);
       return false;
     }
   }
@@ -200,23 +200,23 @@ var vectorsAreOrthonormal = function(a, b, tol, onFalse) {
   return true;
 };
 
-var matrixOrthogonal = function(a, tol, onFalse) {
+var matrixIsOrthogonal = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;
   }
 
   if( a.dimension !== 2 ) {
-    output(onFalse,'matrixOrthogonal():: can only test for column normality of two-dimensional arrays');
+    output(onFalse,'matrixIsOrthogonal():: can only test for column normality of two-dimensional arrays');
     return false;
   }
 
   if( ! matrixColsAreOrthogonal(a,tol) ) {
-    output(onFalse,'matrixOrthogonal():: columns not orthogonal');
+    output(onFalse,'matrixIsOrthogonal():: columns not orthogonal');
     return false;
   }
 
-  if( ! matrixColsNormalized(a,tol) ) {
-    output(onFalse,'matrixOrthogonal():: columns not normal');
+  if( ! matrixColsAreNormalized(a,tol) ) {
+    output(onFalse,'matrixIsOrthogonal():: columns not normal');
     return false;
   }
 
@@ -224,12 +224,12 @@ var matrixOrthogonal = function(a, tol, onFalse) {
   // necessary or whether a matrix with orthonormal columns also necessarily has orthonormal
   // rows.
   if( ! matrixColsAreOrthogonal(a.transpose(1,0),tol) ) {
-    output(onFalse,'matrixOrthogonal():: rows not orthogonal');
+    output(onFalse,'matrixIsOrthogonal():: rows not orthogonal');
     return false;
   }
 
-  if( ! matrixColsNormalized(a.transpose(1,0),tol) ) {
-    output(onFalse,'matrixOrthogonal():: rows not normal');
+  if( ! matrixColsAreNormalized(a.transpose(1,0),tol) ) {
+    output(onFalse,'matrixIsOrthogonal():: rows not normal');
     return false;
   }
 
@@ -293,9 +293,19 @@ var orthogonal = function orthogonal(a, tol, onFalse) {
   return matrixIsOrthogonal(a,tol,onFalse);
 };
 
+var matrixOrthogonal  = function matrixOrthogonal (a, tol, onFalse) {
+  console.warn('Warning: matrixOrthogonal () is deprecated. Please use matrixIsOrthogonal() instead');
+  return matrixIsOrthogonal(a,tol,onFalse);
+};
+
 var columnsOrthogonal = function columnsOrthogonal(a, tol, onFalse) {
   console.warn('Warning: columnsOrthogonal() is deprecated. Please use matrixColsAreOrthogonal() instead');
   return matrixColsAreOrthogonal(a,tol,onFalse);
+};
+
+var matrixColsNormalized = function matrixColsNormalized(a, tol, onFalse) {
+  console.warn('Warning: matrixColsNormalized() is deprecated. Please use matrixColsAreNormalized() instead');
+  return matrixColsAreNormalized(a,tol,onFalse);
 };
 
 var upperTriangular = function upperTriangular(a, tol, onFalse) {
@@ -315,8 +325,8 @@ exports.equal = equal;
 
 exports.matrixIsSymmetric = matrixIsSymmetric;
 exports.matrixColsAreOrthogonal = matrixColsAreOrthogonal;
-exports.matrixColsNormalized = matrixColsNormalized;
-exports.matrixOrthogonal = matrixOrthogonal;
+exports.matrixColsAreNormalized = matrixColsAreNormalized;
+exports.matrixIsOrthogonal = matrixIsOrthogonal;
 exports.matrixIsUpperTriangular = matrixIsUpperTriangular;
 exports.matrixIsLowerTriangular = matrixIsLowerTriangular;
 
@@ -330,6 +340,8 @@ exports.vectorsAreOrthonormal = vectorsAreOrthonormal;
 exports.columnsOrthogonal = columnsOrthogonal;
 exports.symmetric = symmetric;
 exports.orthogonal = orthogonal;
+exports.matrixColsNormalized = matrixColsNormalized;
+exports.matrixOrthogonal = matrixOrthogonal;
 exports.upperTriangular = upperTriangular;
 exports.lowerTriangular = lowerTriangular;
 

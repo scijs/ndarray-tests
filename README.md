@@ -66,14 +66,14 @@ Test whether vectors `a` and `b` are both normalized and orthogonal using `vecto
 ##### `matrixIsSymmetric( a [, tol], [, onFalse] )`
 Test for element-wise symmetry. Returns false if the difference between any element and its counterpart is greater than the tolerance.
 
-##### `matrixColumnsAreNormalized( a [, tol], [, onFalse] )`
+##### `matrixColsAreNormalized( a [, tol], [, onFalse] )`
 Test whether the L2 norm of every column is within `tol` of 1.
 
-##### `matrixColumnsAreOrthogonal( a [, tol], [, onFalse] )`
+##### `matrixColsAreOrthogonal( a [, tol], [, onFalse] )`
 Test whether the pairwise inner product of all column pairs is less than `tol`.
 
 ##### `matrixIsOrthogonal( a [, tol], [, onFalse] )`
-Checks for squareness, column normality, and pair-wise column orthogonality to check if the matrix is orthogonal. `tol` is passed to the `matrixColumnsAreNormal` and `matrixColumnsAreOrthogonal`
+Checks for squareness, column normality, and pair-wise column orthogonality to check if the matrix is orthogonal. `tol` is passed to the `matrixColsAreNormal` and `matrixColsAreOrthogonal`
 
 ##### `matrixIsUpperTriangular( a, [, tol] [, onFalse] )`
 Check whether all entries below the diagonal are within `tol` of zero. Works on tall and wide two-dimensional ndarrays.
