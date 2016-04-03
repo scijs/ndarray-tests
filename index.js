@@ -27,44 +27,6 @@ function arraysEqual (a,b) {
 };
 
 
-var equal = function(a,b, tol, onFalse) {
-  var t;
-
-  if( tol === undefined ) {
-    tol = 0;
-  }
-
-  if( a.dimension !== b.dimension ) {
-    output(onFalse,'approximatelyEqual():: a.dimension (= ' + a.dimension + ') !=   b.dimension (= ' + b.dimension + ')');
-    return false;
-  }
-
-  if( ! arraysEqual(a.shape,b.shape) ) {
-    output(onFalse, 'approximatelyEqual():: a.shape != b.shape');
-    return false;
-  }
-
-  var diff = pool.zeros(a.shape, 'float64');
-  ops.sub(diff, a, b);
-  ops.abseq(diff);
-  var nrm = ops.sup(diff);
-
-  if( nrm > Math.max(0,tol) ) {
-    output(onFalse, 'approximatelyEqual():: max element of A - B (= ' + nrm + ') > ' + tol);
-    return false;
-  }
-
-  var sum = ops.sum(diff);
-
-  if( isNaN(sum) ) {
-    output(onFalse, 'approximatelyEqual():: matrix contains NaN');
-    return false;
-  }
-
-  return true;
-};
-
-
 var matrixIsSymmetric = function(a, tol, onFalse) {
   if( tol === undefined ) {
     tol = 0.0;

@@ -31,55 +31,6 @@ describe('onFalse callbacks',function() {
 
 });
 
-describe('approximatelyEqual',function() {
-
-  var a,b,c,d,e,f,g;
-
-  beforeEach(function() {
-    a = ndarray([1,2,3,4,5,6],[6]);
-    b = ndarray([3,4,5,6,5,6],[2,3]);
-
-    c = ndarray([1,2,3,4,5,7],[3,2]);
-    d = ndarray([1,2,3,4,5,6],[3,2]);
-    e = ndarray([1,2,3,4,5,6.00001],[3,2]);
-    f = ndarray([1,2,3,4,5,6],[3,2]);
-    g = ndarray([1,2,NaN,4,5,6],[3,2]);
-  });
-
-  it('false if dimensions unequal',function() {
-    assert.isFalse( ndtest.approximatelyEqual(a,b) );
-  });
-
-  it('false if shapes unequal',function() {
-    assert.isFalse( ndtest.approximatelyEqual(b,c) );
-  });
-
-  it('false if values unequal',function() {
-    assert.isFalse( ndtest.approximatelyEqual(c,d) );
-  });
-
-  it('true if within tolerance',function() {
-    assert.isTrue( ndtest.approximatelyEqual(d,e, 1e-4) );
-  });
-
-  it('false if not within tolerance',function() {
-    assert.isFalse( ndtest.approximatelyEqual(e,f, 1e-8) );
-  });
-
-  it('true if exactly equal',function() {
-    assert.isTrue( ndtest.approximatelyEqual(d,f) );
-  });
-
-  it('false if any entry is NaN',function() {
-    assert.isFalse( ndtest.approximatelyEqual(f,g) );
-  });
-
-  it('aliased to equal',function() {
-    assert.isFalse( ndtest.equal(f,g) );
-  });
-
-});
-
 
 describe('matrixIsSymmetric',function() {
 
